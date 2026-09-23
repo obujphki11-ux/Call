@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Connectly</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="authScreen" class="auth-screen">
+    <div class="auth-card">
+
+      <div class="logo">C</div>
+
+      <h1>Connectly</h1>
+
+      <p class="muted">
+        Simple. Private. Connected.
+      </p>
+
+      <input
+        id="authName"
+        type="text"
+        placeholder="Full name"
+      />
+
+      <input
+        id="authEmail"
+        type="email"
+        placeholder="Email address"
+      />
+
+      <input
+        id="authPassword"
+        type="password"
+        placeholder="Password"
+      />
+
+      <button onclick="register()">
+        Create Account
+      </button>
+
+      <button
+        class="secondary-button"
+        onclick="login()"
+      >
+        Login
+      </button>
+
+      <p id="authMessage"></p>
+
+    </div>
+  </div>
+
+  <div id="appScreen" class="app-screen hidden">
+
+    <aside class="sidebar">
+
+      <div class="sidebar-header">
+
+        <div class="profile">
+          <div id="myAvatar" class="avatar">
+            U
+          </div>
+
+          <div>
+            <strong id="myName">
+              User
+            </strong>
+
+            <small>
+              Online
+            </small>
+          </div>
+        </div>
+
+        <button
+          class="icon-button"
+          onclick="logout()"
+        >
+          ⋮
+        </button>
+
+      </div>
+
+      <div class="search-box">
+        <span>⌕</span>
+
+        <input
+          id="userSearch"
+          type="text"
+          placeholder="Search conversations"
+          oninput="filterUsers()"
+        />
+      </div>
+
+      <div class="tabs">
+        <button class="active">
+          Chats
+        </button>
+
+        <button>
+          Calls
+        </button>
+
+        <button>
+          Contacts
+        </button>
+      </div>
+
+      <div id="usersList" class="users-list">
+        <p class="empty-text">
+          Loading users...
+        </p>
+      </div>
+
+    </aside>
+
+    <main class="chat-area">
+
+      <div id="emptyChat" class="empty-chat">
+
+        <div class="empty-icon">
+          C
+        </div>
+
+        <h2>
+          Welcome to Connectly
+        </h2>
+
+        <p>
+          Select a contact to start chatting
+        </p>
+
+      </div>
+
+      <section
+        id="chatScreen"
+        class="chat-screen hidden"
+      >
+
+        <header class="chat-header">
+
+          <div class="profile">
+
+            <div id="chatAvatar" class="avatar">
+              U
+            </div>
+
+            <div>
+              <strong id="chatUserName">
+                User
+              </strong>
+
+              <small id="chatUserStatus">
+                Offline
+              </small>
+            </div>
+
+          </div>
+
+          <div class="chat-actions">
+
+            <button
+              class="call-button"
+              onclick="startCall('audio')"
+              title="Audio call"
+            >
+              ☎
+            </button>
+
+            <button
+              class="call-button"
+              onclick="startCall('video')"
+              title="Video call"
+            >
+              ▣
+            </button>
+
+            <button
+              class="call-button"
+              title="More options"
+            >
+              ⋮
+            </button>
+
+          </div>
+
+        </header>
+
+        <div id="messages" class="messages"></div>
+
+        <div class="message-input-area">
+
+          <button class="emoji-button">
+            ☺
+          </button>
+
+          <input
+            id="messageInput"
+            type="text"
+            placeholder="Type a message"
+            onkeydown="handleMessageKey(event)"
+          />
+
+          <button
+            class="send-button"
+            onclick="sendMessage()"
+          >
+            ➤
+          </button>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <div id="callModal" class="call-modal hidden">
+
+      <div class="call-card">
+
+        <div class="call-title">
+          Call in progress
+        </div>
+
+        <video
+          id="remoteVideo"
+          autoplay
+          playsinline
+        ></video>
+
+        <video
+          id="localVideo"
+          autoplay
+          muted
+          playsinline
+        ></video>
+
+        <div class="call-controls">
+
+          <button onclick="toggleMic()">
+            🎙
+          </button>
+
+          <button onclick="toggleCamera()">
+            ▣
+          </button>
+
+          <button
+            class="end-call"
+            onclick="endCall()"
+          >
+            ✕
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
